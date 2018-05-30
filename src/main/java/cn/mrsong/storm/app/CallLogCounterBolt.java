@@ -10,12 +10,19 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 
+import cn.mrsong.storm.myutil.MyUtil;
+
 public class CallLogCounterBolt implements IRichBolt {
 	   Map<String, Integer> counterMap;
 	   private OutputCollector collector;
+	   public CallLogCounterBolt() {
+		   
+		   MyUtil.OutLog2NC(this, "new CallLogCounterBolt()");
+	   }
 
 	   @Override
 	   public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
+		   MyUtil.OutLog2NC(this, "prepare()");
 	      this.counterMap = new HashMap<String, Integer>();
 	      this.collector = collector;
 	   }
@@ -31,7 +38,7 @@ public class CallLogCounterBolt implements IRichBolt {
 	         Integer c = counterMap.get(call) + 1;
 	         counterMap.put(call, c);
 	      }
-			
+	      MyUtil.OutLog2NC(this, "execute():"+call+" - "+duration);
 	      collector.ack(tuple);
 	   }
 

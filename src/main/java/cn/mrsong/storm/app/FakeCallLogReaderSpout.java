@@ -13,6 +13,8 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
 
+import cn.mrsong.storm.myutil.MyUtil;
+
 public class FakeCallLogReaderSpout implements IRichSpout {
 	   //Create instance for SpoutOutputCollector which passes tuples to bolt.
 	   private SpoutOutputCollector collector;
@@ -25,8 +27,13 @@ public class FakeCallLogReaderSpout implements IRichSpout {
 	   private Random randomGenerator = new Random();
 	   private Integer idx = 0;
 
+	   public FakeCallLogReaderSpout() {
+		   MyUtil.OutLog2NC(this, "new FakeCallLogReaderSpout()");
+	   }
+	   
 	   @Override
 	   public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
+		   MyUtil.OutLog2NC(this, "open()");
 	      this.context = context;
 	      this.collector = collector;
 	   }
