@@ -40,7 +40,9 @@ public class FakeCallLogReaderSpout implements IRichSpout {
 
 	   @Override
 	   public void nextTuple() {
-	      if(this.idx <= 1000) {
+//	      if(this.idx <= 1000) {
+//
+//	      }
 	         List<String> mobileNumbers = new ArrayList<String>();
 	         mobileNumbers.add("1234123401");
 	         mobileNumbers.add("1234123402");
@@ -48,7 +50,7 @@ public class FakeCallLogReaderSpout implements IRichSpout {
 	         mobileNumbers.add("1234123404");
 
 	         Integer localIdx = 0;
-	         while(localIdx++ < 100 && this.idx++ < 1000) {
+	         while(localIdx++ < 10) {
 	            String fromMobileNumber = mobileNumbers.get(randomGenerator.nextInt(4));
 	            String toMobileNumber = mobileNumbers.get(randomGenerator.nextInt(4));
 					
@@ -59,7 +61,6 @@ public class FakeCallLogReaderSpout implements IRichSpout {
 	            Integer duration = randomGenerator.nextInt(60);
 	            this.collector.emit(new Values(fromMobileNumber, toMobileNumber, duration));
 	         }
-	      }
 	   }
 
 	   @Override
