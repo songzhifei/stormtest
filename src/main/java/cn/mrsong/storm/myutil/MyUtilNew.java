@@ -13,7 +13,7 @@ public class MyUtilNew {
     public static void OutLog2NC(Object o,String msg){
         try {
         	Runtime rt = Runtime.getRuntime();
-            Process p = rt.exec("nc 192.168.88.1 8888");
+            Process p = rt.exec("nc 192.168.112.1 8888");
             OutputStream os = p.getOutputStream();
         	
         	String prefix = "";
