@@ -13,7 +13,8 @@ public class MyUtil {
     static {
         Runtime rt = Runtime.getRuntime();
         try {
-            Process p = rt.exec("nc 192.168.88.1 8888");
+//            Process p = rt.exec("nc 192.168.88.1 8888");
+        	Process p = rt.exec("nc 192.168.112.1 8888");
             os = p.getOutputStream();
 
         }catch (IOException e){
