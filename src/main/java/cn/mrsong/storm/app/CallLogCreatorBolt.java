@@ -20,13 +20,13 @@ public class CallLogCreatorBolt implements IRichBolt {
 	 MyUtil.OutLog2NC(this, "new CallLogCreatorBolt()");
  }
 
- @Override
+
  public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
 	 MyUtil.OutLog2NC(this, "prepare()");
     this.collector = collector;
  }
 
- @Override
+
  public void execute(Tuple tuple) {
     String from = tuple.getString(0);
     String to = tuple.getString(1);
@@ -35,15 +35,12 @@ public class CallLogCreatorBolt implements IRichBolt {
     collector.emit(new Values(from + " - " + to, duration));
  }
 
- @Override
  public void cleanup() {}
 
- @Override
  public void declareOutputFields(OutputFieldsDeclarer declarer) {
     declarer.declare(new Fields("call", "duration"));
  }
 	
- @Override
  public Map<String, Object> getComponentConfiguration() {
     return null;
  }

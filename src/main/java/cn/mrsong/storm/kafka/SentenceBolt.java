@@ -22,7 +22,6 @@ public class SentenceBolt extends BaseBasicBolt {
 	private static final long serialVersionUID = 1L;
 	private List<String> words = new ArrayList<String>();
 
-	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
 		// TODO Auto-generated method stub
 		String word = input.getString(0);
@@ -38,7 +37,6 @@ public class SentenceBolt extends BaseBasicBolt {
 		}
 	}
 
-	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		// TODO Auto-generated method stub
 		declarer.declare(new Fields("sentence"));

@@ -22,7 +22,7 @@ public class KafkaToplogy {
 	public static void main(String[] args) throws Exception, InvalidTopologyException, AuthorizationException {
 	  ZkHosts zkHosts = new ZkHosts("itcast03:2181");
 
-	  SpoutConfig spoutConfig = new SpoutConfig(zkHosts, "test2","/test2","id7");
+	  SpoutConfig spoutConfig = new SpoutConfig(zkHosts, "test2","","id7");
 	  
       List<String> zkServers = new ArrayList<String>() ;
       zkServers.add("itcast03");
@@ -36,13 +36,13 @@ public class KafkaToplogy {
 	  builder.setBolt("SentenceBolt", new SentenceBolt(),1).globalGrouping("KafkaSpout");
 	  builder.setBolt("PrinterBolt", new PrinterBolt(),1).globalGrouping("SentenceBolt");
 	  
-	  //LocalCluster cluster = new LocalCluster();
+	  LocalCluster cluster = new LocalCluster();
 	  
 	  Config config = new Config();
 	  config.setDebug(true);
 	  
-	  //cluster.submitTopology("KafkaTopolgy", config, builder.createTopology());
-	  StormSubmitter.submitTopology("KafkaTopolgy", config, builder.createTopology());
+	  cluster.submitTopology("KafkaTopolgy", config, builder.createTopology());
+	  //StormSubmitter.submitTopology("KafkaTopolgy", config, builder.createTopology());
 	  try{
 		  System.out.println("waiting to consume from kafka");
 		  Thread.sleep(60000);

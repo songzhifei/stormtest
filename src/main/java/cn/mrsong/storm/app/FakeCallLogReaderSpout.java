@@ -31,14 +31,14 @@ public class FakeCallLogReaderSpout implements IRichSpout {
 		   MyUtil.OutLog2NC(this, "new FakeCallLogReaderSpout()");
 	   }
 	   
-	   @Override
+
 	   public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
 		   MyUtil.OutLog2NC(this, "open()");
 	      this.context = context;
 	      this.collector = collector;
 	   }
 
-	   @Override
+
 	   public void nextTuple() {
 //	      if(this.idx <= 1000) {
 //
@@ -63,32 +63,31 @@ public class FakeCallLogReaderSpout implements IRichSpout {
 	         }
 	   }
 
-	   @Override
+
 	   public void declareOutputFields(OutputFieldsDeclarer declarer) {
 	      declarer.declare(new Fields("from", "to", "duration"));
 	   }
 
 	   //Override all the interface methods
-	   @Override
+
 	   public void close() {}
 
 	   public boolean isDistributed() {
 	      return false;
 	   }
 
-	   @Override
+
 	   public void activate() {}
 
-	   @Override 
+
 	   public void deactivate() {}
 
-	   @Override
+
 	   public void ack(Object msgId) {}
 
-	   @Override
+
 	   public void fail(Object msgId) {}
 
-	   @Override
 	   public Map<String, Object> getComponentConfiguration() {
 	      return null;
 	   }
