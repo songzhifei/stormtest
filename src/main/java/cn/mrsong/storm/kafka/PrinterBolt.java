@@ -13,12 +13,14 @@ public class PrinterBolt extends BaseBasicBolt {
 	 */
 	private static final long serialVersionUID = 6298972509459082859L;
 
+
 	public void execute(Tuple input, BasicOutputCollector collector) {
 		// TODO Auto-generated method stub
 		String sentence = input.getString(0);
-		MyUtilNew.OutLog2NC(this, sentence);
+		//MyUtilNew.OutLog2NC(this, sentence);
 		System.out.println("Received Sentence:"+sentence);
 	}
+
 
 	public void declareOutputFields(OutputFieldsDeclarer arg0) {
 		// TODO Auto-generated method stub

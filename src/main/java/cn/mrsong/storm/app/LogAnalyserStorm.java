@@ -18,7 +18,9 @@ public class LogAnalyserStorm {
     
     Map<String, String> map = new HashMap<String,String>();
     
+
     map.put("storm.zookeeper.servers", "itcast03");
+
     config.setEnvironment(map);
     
 		
@@ -34,8 +36,10 @@ public class LogAnalyserStorm {
 			
     LocalCluster cluster = new LocalCluster();
     cluster.submitTopology("LogAnalyserStorm", config, builder.createTopology());
-//    Thread.sleep(10000);
-//	cluster.shutdown();
+
+    Thread.sleep(10000);
+	cluster.shutdown();
+
     //Stop the topology
 		
     

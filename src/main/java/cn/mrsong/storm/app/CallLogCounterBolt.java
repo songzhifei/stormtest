@@ -41,6 +41,7 @@ public class CallLogCounterBolt implements IRichBolt {
 	      collector.ack(tuple);
 	   }
 
+
 	   public void cleanup() {
 //		   System.out.println("===============>");
 	      for(Map.Entry<String, Integer> entry:counterMap.entrySet()){
@@ -52,6 +53,7 @@ public class CallLogCounterBolt implements IRichBolt {
 	      declarer.declare(new Fields("call"));
 	   }
 		
+
 	   public Map<String, Object> getComponentConfiguration() {
 	      return null;
 	   }

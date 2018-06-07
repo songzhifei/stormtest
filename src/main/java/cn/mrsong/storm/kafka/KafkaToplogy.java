@@ -20,7 +20,7 @@ import org.apache.storm.topology.TopologyBuilder;
 
 public class KafkaToplogy {
 	public static void main(String[] args) throws Exception, InvalidTopologyException, AuthorizationException {
-	  ZkHosts zkHosts = new ZkHosts("itcast03:2181");
+	  ZkHosts zkHosts = new ZkHosts("itcast02:2181");
 
 	  SpoutConfig spoutConfig = new SpoutConfig(zkHosts, "test2","","id7");
 	  
@@ -36,6 +36,7 @@ public class KafkaToplogy {
 	  builder.setBolt("SentenceBolt", new SentenceBolt(),1).globalGrouping("KafkaSpout");
 	  builder.setBolt("PrinterBolt", new PrinterBolt(),1).globalGrouping("SentenceBolt");
 	  
+
 	  LocalCluster cluster = new LocalCluster();
 	  
 	  Config config = new Config();
@@ -43,6 +44,7 @@ public class KafkaToplogy {
 	  
 	  cluster.submitTopology("KafkaTopolgy", config, builder.createTopology());
 	  //StormSubmitter.submitTopology("KafkaTopolgy", config, builder.createTopology());
+
 	  try{
 		  System.out.println("waiting to consume from kafka");
 		  Thread.sleep(60000);
@@ -50,7 +52,7 @@ public class KafkaToplogy {
 		// TODO: handle exception
 		  System.out.println("Thread interrupted exception : "+e);
 	  }
-	  //cluster.killTopology("KafkaTopolgy");
-	  //cluster.shutdown();
+	  cluster.killTopology("KafkaTopolgy");
+	  cluster.shutdown();
 	}
 }

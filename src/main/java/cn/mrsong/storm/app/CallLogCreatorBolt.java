@@ -35,12 +35,15 @@ public class CallLogCreatorBolt implements IRichBolt {
     collector.emit(new Values(from + " - " + to, duration));
  }
 
+
  public void cleanup() {}
+
 
  public void declareOutputFields(OutputFieldsDeclarer declarer) {
     declarer.declare(new Fields("call", "duration"));
  }
 	
+
  public Map<String, Object> getComponentConfiguration() {
     return null;
  }
