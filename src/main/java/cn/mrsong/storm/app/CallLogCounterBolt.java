@@ -43,7 +43,7 @@ public class CallLogCounterBolt implements IRichBolt {
 
 
 	   public void cleanup() {
-//		   System.out.println("===============>");
+		   System.out.println("===============>");
 	      for(Map.Entry<String, Integer> entry:counterMap.entrySet()){
 	         System.out.println(entry.getKey()+" ===============>: " + entry.getValue());
 	      }

@@ -2,6 +2,7 @@ package cn.mrsong.storm.kafka;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
@@ -19,10 +20,13 @@ import org.apache.storm.topology.TopologyBuilder;
 
 
 public class KafkaToplogy {
+	private static final String topic = "test3";
+	
 	public static void main(String[] args) throws Exception, InvalidTopologyException, AuthorizationException {
-	  ZkHosts zkHosts = new ZkHosts("itcast02:2181");
+	  ZkHosts zkHosts = new ZkHosts("itcast03:2181");
 
-	  SpoutConfig spoutConfig = new SpoutConfig(zkHosts, "test2","","id7");
+	  SpoutConfig spoutConfig = new SpoutConfig(zkHosts, topic,"/"+topic,UUID
+	            .randomUUID().toString());
 	  
       List<String> zkServers = new ArrayList<String>() ;
       zkServers.add("itcast03");
@@ -47,12 +51,12 @@ public class KafkaToplogy {
 
 	  try{
 		  System.out.println("waiting to consume from kafka");
-		  Thread.sleep(60000);
+		  //Thread.sleep(60000);
 	  }catch (Exception e) {
 		// TODO: handle exception
 		  System.out.println("Thread interrupted exception : "+e);
 	  }
-	  cluster.killTopology("KafkaTopolgy");
-	  cluster.shutdown();
+//	  cluster.killTopology("KafkaTopolgy");
+//	  cluster.shutdown();
 	}
 }
