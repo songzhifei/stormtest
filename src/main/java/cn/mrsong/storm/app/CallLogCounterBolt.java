@@ -20,14 +20,14 @@ public class CallLogCounterBolt implements IRichBolt {
 		   MyUtil.OutLog2NC(this, "new CallLogCounterBolt()");
 	   }
 
-	   @Override
+
 	   public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
 		   MyUtil.OutLog2NC(this, "prepare()");
 	      this.counterMap = new HashMap<String, Integer>();
 	      this.collector = collector;
 	   }
 
-	   @Override
+
 	   public void execute(Tuple tuple) {
 	      String call = tuple.getString(0);
 	      Integer duration = tuple.getInteger(1);
@@ -42,19 +42,19 @@ public class CallLogCounterBolt implements IRichBolt {
 	      collector.ack(tuple);
 	   }
 
-	   @Override
+
 	   public void cleanup() {
 	      for(Map.Entry<String, Integer> entry:counterMap.entrySet()){
 	         System.out.println(entry.getKey()+" ===============>: " + entry.getValue());
 	      }
 	   }
 
-	   @Override
+
 	   public void declareOutputFields(OutputFieldsDeclarer declarer) {
 	      declarer.declare(new Fields("call"));
 	   }
 		
-	   @Override
+
 	   public Map<String, Object> getComponentConfiguration() {
 	      return null;
 	   }

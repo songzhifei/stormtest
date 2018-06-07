@@ -16,10 +16,10 @@ public class LogAnalyserStorm {
     Config config = new Config();
     config.setDebug(true);
     
-//    Map<String, String> map = new HashMap<String,String>();
-//    
-//    map.put("storm.zookeeper.servers", "itcast04");
-//    config.setEnvironment(map);
+    Map<String, String> map = new HashMap<String,String>();
+    
+    map.put("storm.zookeeper.servers", "itcast02");
+    config.setEnvironment(map);
     
 		
     //
@@ -32,13 +32,13 @@ public class LogAnalyserStorm {
     builder.setBolt("call-log-counter-bolt", new CallLogCounterBolt())
        .fieldsGrouping("call-log-creator-bolt", new Fields("call"));
 			
-//    LocalCluster cluster = new LocalCluster();
-//    cluster.submitTopology("LogAnalyserStorm", config, builder.createTopology());
-//    Thread.sleep(10000);
-//	cluster.shutdown();
+    LocalCluster cluster = new LocalCluster();
+    cluster.submitTopology("LogAnalyserStorm", config, builder.createTopology());
+    Thread.sleep(10000);
+	cluster.shutdown();
     //Stop the topology
 		
     
-    StormSubmitter.submitTopology("LogAnalyserStorm", config, builder.createTopology());
+    //StormSubmitter.submitTopology("LogAnalyserStorm", config, builder.createTopology());
  }
 }
