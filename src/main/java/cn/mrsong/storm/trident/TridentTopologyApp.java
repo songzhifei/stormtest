@@ -35,6 +35,7 @@ public class TridentTopologyApp {
 	    		.each(new Fields("a","b"), new CheckEvenSumFilter())
 	    		.each(new Fields("a","b"), new SumFunction(),new Fields("sum"))
 	    		.each(new Fields("a","b","c","d","sum"),new AvgFunction(),new Fields("avg"))
+	    		.project(new Fields("a","b","sum","avg"))//只保留设置的字段，其他字段数据被抛弃
 	    		.parallelismHint(2);
 	    
 //	    newStream.shuffle().each(new Fields("a","b"), new SumFunction(),new Fields("sum"));
