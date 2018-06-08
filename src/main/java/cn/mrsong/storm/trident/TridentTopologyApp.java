@@ -2,7 +2,6 @@ package cn.mrsong.storm.trident;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.trident.Stream;
