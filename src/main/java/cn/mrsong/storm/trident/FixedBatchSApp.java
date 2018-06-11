@@ -7,6 +7,7 @@ import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.trident.Stream;
 import org.apache.storm.trident.TridentTopology;
+import org.apache.storm.trident.operation.builtin.Count;
 import org.apache.storm.trident.testing.FixedBatchSpout;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
@@ -31,7 +32,8 @@ public class FixedBatchSApp {
 		TridentTopology top = new TridentTopology();
 
 		Stream newStream = top.newStream("sput", fixedBatchSpout);
-		newStream.shuffle().each(new Fields("a", "b"), new CheckEvenSumFilter()).parallelismHint(2);
+		newStream.shuffle().each(new Fields("a", "b"), new CheckEvenSumFilter())
+				.partitionAggregate(new Fields("a"), new Count(), new Fields("count")).parallelismHint(2);
 
 		LocalCluster cluster = new LocalCluster();
 		cluster.submitTopology("FixedBatchSApp", config, top.build());
