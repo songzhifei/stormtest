@@ -7,6 +7,7 @@ import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.LocalDRPC;
 import org.apache.storm.StormSubmitter;
+import org.apache.storm.drpc.LinearDRPCTopologyBuilder;
 import org.apache.storm.generated.StormTopology;
 import org.apache.storm.trident.TridentState;
 import org.apache.storm.trident.TridentTopology;
@@ -21,31 +22,34 @@ public class DistributedRPC {
 
 	public static void main(String[] args) throws Exception {
 		Config conf = new Config();
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("storm.zookeeper.servers", "itcast02");
-
-		conf.setEnvironment(map);
-		conf.setDebug(true);
-		conf.setMaxSpoutPending(20);
+//		LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("Count");
+//		builder.addBolt(new ExclaimBolt(),3);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("storm.zookeeper.servers", "itcast02");
+//
+//		conf.setEnvironment(map);
+//		conf.setDebug(true);
+//		conf.setMaxSpoutPending(20);
 		LocalDRPC drpc = new LocalDRPC();
 		if (args.length == 0) {
 			LocalCluster cluster = new LocalCluster();
 			cluster.submitTopology("CountryCount", conf, buildTopology(drpc));
-			Thread.sleep(2000);
-			for (int i = 0; i < 10; i++) {
-				System.out.println(drpc.execute("Count", "Japan,India,Europe"));
-				System.out.println("===============>Japan,India,Europe");
-				Thread.sleep(1000);
+			//cluster.submitTopology("CountryCount", conf, builder.createLocalTopology(drpc));
+			//Thread.sleep(2000);
+			//System.out.println("Results for 'hello'"+drpc.execute("Count", "1,2"));
+			//System.out.println("Results for 'hello'"+drpc.execute("Count", "Japan,India,Europe"));
+			for(int i=0;i<100;i++) {
+				System.out.println("Results for 'hello'"+drpc.execute("Count", "Japan,India,Europe"));
 			}
 		    //Thread.sleep(20000);
 			cluster.shutdown();
+			drpc.shutdown();
 		} else {
 			conf.setNumWorkers(3);
 			StormSubmitter.submitTopology(args[0], conf, buildTopology(null));
 			Thread.sleep(2000);
 			DRPCClient client = new DRPCClient(conf, "RRPC-Server", 1234);
-			System.out.println(client.execute("Count", "Japan,India,Europe"));
+			System.out.println("Results for 'hello'"+client.execute("Count", "Japan,India,Europe"));
 		}
 	}
 
@@ -63,7 +67,7 @@ public class DistributedRPC {
 		}
 		topology.newDRPCStream("Count", drpc).each(new Fields("args"), new Split(), new Fields("Country"))
 				.stateQuery(countryCount, new Fields("Country"), new MapGet(), new Fields("count"))
-				.each(new Fields("count"), new FilterNull()).each(new Fields("count"), new Print());
+				.each(new Fields("count"), new FilterNull());
 		return topology.build();
 	}
 }
