@@ -35,7 +35,7 @@ public class DistributedRPC {
 			Thread.sleep(2000);
 			for (int i = 0; i < 10; i++) {
 				System.out.println(drpc.execute("Count", "Japan,India,Europe"));
-				System.out.println("===============>Japan,India,Europe");
+//				System.out.println("===============>Japan,India,Europe");
 				Thread.sleep(1000);
 			}
 		    //Thread.sleep(20000);
