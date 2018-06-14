@@ -17,19 +17,21 @@ import org.apache.storm.trident.operation.builtin.MapGet;
 import org.apache.storm.trident.testing.MemoryMapState;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.DRPCClient;
+import org.apache.storm.utils.Utils;
 
 public class DistributedRPC {
 
 	public static void main(String[] args) throws Exception {
 		Config conf = new Config();
-//		LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("Count");
-//		builder.addBolt(new ExclaimBolt(),3);
+		LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("Count");
+		builder.addBolt(new ExclaimBolt(),3);
 //		Map<String, String> map = new HashMap<String, String>();
 //		map.put("storm.zookeeper.servers", "itcast02");
 //
 //		conf.setEnvironment(map);
 //		conf.setDebug(true);
 //		conf.setMaxSpoutPending(20);
+		Map config = Utils.readDefaultConfig();
 		LocalDRPC drpc = new LocalDRPC();
 		if (args.length == 0) {
 			LocalCluster cluster = new LocalCluster();
@@ -47,10 +49,10 @@ public class DistributedRPC {
 			drpc.shutdown();
 		} else {
 			conf.setNumWorkers(3);
-			StormSubmitter.submitTopology(args[0], conf, buildTopology(null));
+			StormSubmitter.submitTopology(args[0], config, builder.createRemoteTopology());
 			Thread.sleep(2000);
-			DRPCClient client = new DRPCClient(conf, "RRPC-Server", 1234);
-			System.out.println("Results for 'hello'"+client.execute("Count", "Japan,India,Europe"));
+			DRPCClient client = new DRPCClient(config, "itcast03", 3772);
+			System.out.println("Results for 'hello'"+client.execute("Count", "3,4"));
 		}
 	}
 
