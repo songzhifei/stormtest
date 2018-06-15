@@ -31,8 +31,8 @@ public class DistributedRPC {
 //		conf.setEnvironment(map);
 //		conf.setDebug(true);
 //		conf.setMaxSpoutPending(20);
-		LocalDRPC drpc = new LocalDRPC();
 		Map config = Utils.readDefaultConfig();
+		LocalDRPC drpc = new LocalDRPC();
 		if (args.length == 0) {
 			LocalCluster cluster = new LocalCluster();
 			cluster.submitTopology("CountryCount", conf, buildTopology(drpc));
@@ -49,12 +49,10 @@ public class DistributedRPC {
 			drpc.shutdown();
 		} else {
 			conf.setNumWorkers(3);
-			//StormSubmitter.submitTopology(args[0], config, buildTopology(null));
-			//Thread.sleep(2000);
 			StormSubmitter.submitTopology(args[0], config, builder.createRemoteTopology());
-			DRPCClient client = new DRPCClient(config, "itcast02", 3772);
-			System.out.println("Results for 'hello'"+client.execute("Count", "1,2"));
-			//System.out.println("Results for 'hello'"+client.execute("Count", "Japan,India,Europe"));
+			Thread.sleep(2000);
+			DRPCClient client = new DRPCClient(config, "itcast03", 3772);
+			System.out.println("Results for 'hello'"+client.execute("Count", "3,4"));
 		}
 	}
 
