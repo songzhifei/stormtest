@@ -17,13 +17,14 @@ import org.apache.storm.trident.operation.builtin.MapGet;
 import org.apache.storm.trident.testing.MemoryMapState;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.DRPCClient;
+import org.apache.storm.utils.Utils;
 
 public class DistributedRPC {
 
 	public static void main(String[] args) throws Exception {
 		Config conf = new Config();
-//		LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("Count");
-//		builder.addBolt(new ExclaimBolt(),3);
+		LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("Count");
+		builder.addBolt(new ExclaimBolt(),3);
 //		Map<String, String> map = new HashMap<String, String>();
 //		map.put("storm.zookeeper.servers", "itcast02");
 //
@@ -31,6 +32,7 @@ public class DistributedRPC {
 //		conf.setDebug(true);
 //		conf.setMaxSpoutPending(20);
 		LocalDRPC drpc = new LocalDRPC();
+		Map config = Utils.readDefaultConfig();
 		if (args.length == 0) {
 			LocalCluster cluster = new LocalCluster();
 			cluster.submitTopology("CountryCount", conf, buildTopology(drpc));
@@ -38,19 +40,21 @@ public class DistributedRPC {
 
 			//System.out.println("Results for 'hello'"+drpc.execute("Count", "1,2"));
 			//System.out.println("Results for 'hello'"+drpc.execute("Count", "Japan,India,Europe"));
-			for(int i=0;i<100;i++) {
-				System.out.println("Results for 'hello'"+drpc.execute("Count", "Japan,India,Europe"));
-
-			}
+//			for(int i=0;i<100;i++) {
+//				System.out.println("Results for 'hello'"+drpc.execute("Count", "Japan,India,Europe"));
+//
+//			}
 		    //Thread.sleep(20000);
 			cluster.shutdown();
 			drpc.shutdown();
 		} else {
 			conf.setNumWorkers(3);
-			StormSubmitter.submitTopology(args[0], conf, buildTopology(null));
-			Thread.sleep(2000);
-			DRPCClient client = new DRPCClient(conf, "RRPC-Server", 1234);
-			System.out.println("Results for 'hello'"+client.execute("Count", "Japan,India,Europe"));
+			//StormSubmitter.submitTopology(args[0], config, buildTopology(null));
+			//Thread.sleep(2000);
+			StormSubmitter.submitTopology(args[0], config, builder.createRemoteTopology());
+			DRPCClient client = new DRPCClient(config, "itcast02", 3772);
+			System.out.println("Results for 'hello'"+client.execute("Count", "1,2"));
+			//System.out.println("Results for 'hello'"+client.execute("Count", "Japan,India,Europe"));
 		}
 	}
 
