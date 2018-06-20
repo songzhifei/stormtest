@@ -12,7 +12,7 @@ public class Topology {
 	public static void main(String[] args) {
 		TopologyBuilder builder = new TopologyBuilder();
 		List<String> zks = new ArrayList<String>();
-		zks.add("itcast02");
+		zks.add("itcast04");
 		zks.add("itcast03");
 		List<String> cFs = new ArrayList<String>();
 		cFs.add("personal");

@@ -12,10 +12,12 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.storm.shade.org.apache.http.conn.socket.ConnectionSocketFactory;
 
 public class HBaseOperations implements Serializable {
 
@@ -26,7 +28,7 @@ public class HBaseOperations implements Serializable {
 	// Instance of Hadoop Configuration class
 	Configuration conf = new Configuration();
 	HTable hTable = null;
-
+	
 	public HBaseOperations(String tableName, List<String> ColumnFamilies, List<String> zookeeperIPs, int zkPort) {
 		conf = HBaseConfiguration.create();
 		StringBuffer zookeeperIP = new StringBuffer();
@@ -62,7 +64,7 @@ public class HBaseOperations implements Serializable {
 		try {
 			admin = new HBaseAdmin(conf);
 			// Set the input table in HTableDescriptor
-			HTableDescriptor tableDescriptor = new HTableDescriptor(Bytes.toBytes(tableName));
+			HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(tableName));
 			for (String columnFamaliy : ColumnFamilies) {
 				HColumnDescriptor columnDescriptor = new HColumnDescriptor(columnFamaliy);
 				// add all the HColumnDescriptor into HTableDescriptor
@@ -114,7 +116,7 @@ public class HBaseOperations implements Serializable {
 		cFs.add("cf1");
 		cFs.add("cf2");
 		List<String> zks = new ArrayList<String>();
-		zks.add("itcast02");
+		zks.add("itcast04");
 		zks.add("itcast03");
 		Map<String, Map<String, Object>> record = new HashMap<String, Map<String, Object>>();
 		Map<String, Object> cf1 = new HashMap<String, Object>();
