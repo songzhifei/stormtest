@@ -45,12 +45,12 @@ public class FakeTweetSpout implements IBatchSpout {
 		return new Values(TWEET_MAP.get(randomNumber), COUNTRY_MAP.get(randomNumber2));
 	}
 
-	@Override
+
 	public void ack(long batchId) {
 		this.batchesMap.remove(batchId);
 	}
 
-	@Override
+
 	public void close() {
 		/*
 		 * This method is used to destroy or close all the connection opened in
@@ -58,7 +58,7 @@ public class FakeTweetSpout implements IBatchSpout {
 		 */
 	}
 
-	@Override
+
 	public void emitBatch(long batchId, TridentCollector collector) {
 		List<List<Object>> batches = this.batchesMap.get(batchId);
 		if (batches == null) {
@@ -73,7 +73,7 @@ public class FakeTweetSpout implements IBatchSpout {
 		}
 	}
 
-	@Override
+
 	public Map getComponentConfiguration() {
 		/*
 		 * This method is use to set the spout configuration like defining the
@@ -82,12 +82,12 @@ public class FakeTweetSpout implements IBatchSpout {
 		return null;
 	}
 
-	@Override
+
 	public Fields getOutputFields() {
 		return new Fields("text", "Country");
 	}
 
-	@Override
+
 	public void open(Map arg0, TopologyContext arg1) {
 		/*
 		 * This method is used to initialize the variable, open the connection

@@ -19,13 +19,13 @@ public class ExclaimBolt implements IRichBolt {
 	
 	private OutputCollector collector;
 	
-	@Override
+
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
 		// TODO Auto-generated method stub
 		this.collector = collector;
 	}
 
-	@Override
+
 	public void execute(Tuple input) {
 		String string = input.getString(1);
 		String[] strings =  string.split(",");
@@ -35,18 +35,18 @@ public class ExclaimBolt implements IRichBolt {
 		collector.emit(new Values(input.getValue(0),a+b));
 	}
 
-	@Override
+
 	public void cleanup() {
 		
 	}
 
-	@Override
+
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("id","result"));
 		
 	}
 
-	@Override
+
 	public Map<String, Object> getComponentConfiguration() {
 		// TODO Auto-generated method stub
 		return null;
